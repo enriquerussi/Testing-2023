@@ -55,6 +55,7 @@ group :development, :test do
   gem 'cypress-on-rails', '~> 1.0'
   # Rspec gem
   gem 'rspec-rails', '~> 6.0.0'
+
 end
 
 group :development do
@@ -99,3 +100,9 @@ gem 'yard', '~> 0.9.26'
 
 gem 'httparty'
 gem 'rails-controller-testing'
+
+gem 'factory_bot_rails'
+
+gem 'shoulda-matchers'
+
+gem 'faker'
