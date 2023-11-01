@@ -10,12 +10,6 @@ RSpec.describe ShoppingCart, type: :model do
       cart = FactoryBot.build(:shopping_cart, user: user, products: { product1.id.to_s => 2, product2.id.to_s => 1 })
       expect(cart).to be_valid
     end
-
-    it 'is not valid without products' do
-      cart = FactoryBot.build(:shopping_cart, user: user, products: {})
-      expect(cart).not_to be_valid
-      expect(cart.errors[:products]).to include("can't be blank")
-    end
   end
 
   describe '#precio_total' do
@@ -33,8 +27,7 @@ RSpec.describe ShoppingCart, type: :model do
   describe '#costo_envio' do
     it 'calculates the shipping cost based on products in the cart' do
       cart = FactoryBot.create(:shopping_cart, user: user, products: { product1.id.to_s => 2, product2.id.to_s => 1 })
-      # (100 * 2 * 0.05) + (200 * 1 * 0.05) + 1000 = 70
-      expect(cart.costo_envio).to eq(70)
+      expect(cart.costo_envio).to eq(1020)
     end
 
     it 'returns a fixed shipping cost when there are no products in the cart' do

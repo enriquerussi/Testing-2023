@@ -63,11 +63,17 @@ RSpec.configure do |config|
 
   Capybara.default_driver = :selenium_chrome
 
+  config.include Capybara::DSL, type: :system
+
   require 'factory_bot_rails'
   FactoryBot.definition_file_paths << File.join(File.dirname(__FILE__), 'factories')
   FactoryBot.reload
 
   config.include FactoryBot::Syntax::Methods
+
+  config.include Devise::Test::IntegrationHelpers, type: :request
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   require 'shoulda/matchers'
   Shoulda::Matchers.configure do |config|
