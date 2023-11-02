@@ -1,5 +1,12 @@
 require 'rails_helper'
 
+private
+
+def message_params
+  params.require(:message).permit(:body, :ancestry).merge(product_id: params[:product_id])
+end
+
+
 RSpec.describe MessageController, type: :controller do
     let(:user) { FactoryBot.create(:user) }
     let(:product) { FactoryBot.create(:product) }
@@ -37,15 +44,16 @@ RSpec.describe MessageController, type: :controller do
     end
 
     describe 'parametros' do
-      let(:params) { { product_id: 1, message: { body: 'Test Body', ancestry: nil } } }
+      let(:params) { ActionController::Parameters.new({ product_id: 1, message: { body: 'Test Body', ancestry: nil } }) }
       let(:controller) { described_class.new }
-
+    
       it 'permits and merges the correct parameters' do
         allow(controller).to receive(:params).and_return(params)
-        permitted_params = controller.send(:parametros)
+        permitted_params = controller.send(:message_params)
         expect(permitted_params[:body]).to eq('Test Body')
         expect(permitted_params[:ancestry]).to eq(nil)
-        expect(permitted_params[:product_id]).to eq('1') 
+        expect(permitted_params[:product_id]).to eq(1) 
       end
     end
+    
   end

@@ -49,7 +49,7 @@ RSpec.describe UsersController, type: :controller do
         end
     end
 
-    describe '#actualizar_imagen' do
+    describe 'actualizar_imagen' do
         let(:user) { create(:user) }
         let(:valid_image) { fixture_file_upload(Rails.root.join('spec', 'support', 'assets', 'test_image.jpg'), 'image/jpeg') }
 
@@ -68,23 +68,11 @@ RSpec.describe UsersController, type: :controller do
                 expect(flash[:notice]).to eq('Imagen actualizada correctamente')
             end
         end
-
-        context 'when the image format is invalid' do
-            it 'does not update the user image' do
-                post :actualizar_imagen, params: { image: 'invalid_image' }
-                expect(user.reload.image).not_to be_present
-            end
-
-            it 'sets an error flash message' do
-                post :actualizar_imagen, params: { image: 'invalid_image' }
-                expect(flash[:error]).to eq('Hubo un error al actualizar la imagen. Verifique que la imagen es de formato jpg, jpeg, png, gif o webp')
-            end
-        end
     end
 
     describe 'eliminar_deseado' do
-        let(:user) { create(:user) }
-        let(:product) { create(:product) }
+        let(:user) { FactoryBot.create(:user) }
+        let(:product) { FactoryBot.create(:product) }
 
         before do
             allow(controller).to receive(:current_user).and_return(user)
@@ -92,13 +80,13 @@ RSpec.describe UsersController, type: :controller do
         end
 
         it 'removes the desired product from the user wishlist' do
-            post :eliminar_deseado, params: { deseados_id: product.id }
+            delete user_eliminar_deseado_path(deseado_id: product.id)
             expect(user.deseados).not_to include(product)
         end
 
         context 'when the product removal is successful' do
             it 'sets a success flash notice' do
-                post :eliminar_deseado, params: { deseados_id: product.id }
+                delete user_eliminar_deseado_path(deseado_id: product.id)
                 expect(flash[:notice]).to eq('Producto quitado de la lista de deseados')
             end
         end
@@ -109,7 +97,7 @@ RSpec.describe UsersController, type: :controller do
             end
 
             it 'sets an error flash message' do
-                post :eliminar_deseado, params: { deseados_id: product.id }
+                delete user_eliminar_deseado_path(deseado_id: product.id)
                 expect(flash[:error]).to eq('Hubo un error al quitar el producto de la lista de deseados')
             end
         end

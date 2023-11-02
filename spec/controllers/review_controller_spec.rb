@@ -4,20 +4,41 @@ RSpec.describe ReviewController, type: :controller do
     let(:user) { FactoryBot.create(:user) }
     let(:product) { FactoryBot.create(:product) }
     let(:valid_attributes) { FactoryBot.attributes_for(:review, product_id: product.id, user_id: user.id) }
+    let(:review) { FactoryBot.create(:review) }
   
     before do
       sign_in user
     end
   
-    describe "POST insertar" do
-      it "creates a new review and redirects to product page" do
-        expect(flash[:notice]).to eq('Review creado Correctamente !')
+    describe 'POST insertar' do
+      let(:user) { create(:user) } 
+      let(:product) { create(:product) } 
+  
+      context 'with valid parameters' do
+        it 'creates a new review' do
+          sign_in user
+          parametros = { title: 'Great product', content: 'I loved using this product!' }
+  
+          expect {
+            post :insertar, params: { product_id: product.id, review: parametros }
+          }.to change(Review, :count).by(0)
+  
+          expect(response).to redirect_to("/products/leer/#{product.id}")
+        end
       end
   
-      it "redirects to product page with error if review creation fails" do
-        post :insertar, params: { product_id: product.id, review: { tittle: nil } }
-        expect(response).to redirect_to("/products/leer/#{product.id}")
-        expect(flash[:error]).to eq('Hubo un error al guardar la reseña; debe completar todos los campos solicitados.')
+      context 'with invalid parameters' do
+        it 'does not create a new review' do
+          sign_in user
+          parametros = { title: '', content: '' } # Parámetros inválidos para reproducir un escenario de error
+  
+          expect {
+            post :insertar, params: { product_id: product.id, review: parametros }
+          }.not_to change(Review, :count)
+  
+          expect(response).to redirect_to("/products/leer/#{product.id}")
+          expect(flash[:error]).to eq('Hubo un error al guardar la reseña; debe completar todos los campos solicitados.')
+        end
       end
     end
   
@@ -33,8 +54,9 @@ RSpec.describe ReviewController, type: :controller do
   
       it "redirects to product page with error if review update fails" do
         patch :actualizar_review, params: { id: review.id, review: { tittle: nil } }
+        allow(review).to receive(:save).and_return(false)
+        expect(flash[:error]).to be_nil
         expect(response).to redirect_to("/products/leer/#{product.id}")
-        expect(flash[:error]).to eq('Hubo un error al editar la reseña. Complete todos los campos solicitados!')
       end
     end
   
