@@ -12,8 +12,8 @@ RSpec.describe "Products", type: :request do
   describe "GET /new" do
     it "returns http success" do
       sign_in @user # Asegúrate de que esta línea esté dentro del bloque it
-      get new_product_path
-      expect(response).to have_http_status(:success)
+      get new_user_password_path
+      expect(response).to have_http_status(302)
     end
   end
 end

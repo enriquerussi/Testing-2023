@@ -17,12 +17,12 @@ RSpec.describe ContactMessageController, type: :controller do
 
     it "renders :contacto template when contact message is not saved" do
       post :crear, params: { contact: { name: "John Doe", mail: "john@example.com", phone: "+56123456789", title: "", body: "" } }
-      #expect(response).to render_template(:contacto)
+      #expect(response).to render_template('/contacto')
       expect(flash[:alert]).not_to be_empty
     end
   end
 
-  describe "GET #mostrar" do
+  describe "GET mostrar" do
     it "assigns all contact messages sorted by creation date" do
       contact_message1 = FactoryBot.create(:contact_message, created_at: 2.days.ago)
       contact_message2 = FactoryBot.create(:contact_message, created_at: 1.day.ago)
@@ -36,7 +36,7 @@ RSpec.describe ContactMessageController, type: :controller do
     end
   end
 
-  describe "DELETE #eliminar" do
+  describe "DELETE eliminar" do
     it "deletes the contact message and redirects to /contacto" do
       contact_message = FactoryBot.create(:contact_message)
       delete :eliminar, params: { id: contact_message.id }
@@ -51,7 +51,7 @@ RSpec.describe ContactMessageController, type: :controller do
     end
   end
 
-  describe "DELETE #limpiar" do
+  describe "DELETE limpiar" do
     it "deletes all contact messages and redirects to /contacto" do
       FactoryBot.create_list(:contact_message, 3)
       delete :limpiar
