@@ -1,7 +1,9 @@
 ## Tarea X
 
 ### Logros de la entrega:
-[Recuerden especificar quien hizo cada cosa]
+Tareas de Enrique Russi: Tests de los controladores
+
+Tareas de Cristobal Dulanto: Tests de los modelos
 *
 *
 

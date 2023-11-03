@@ -38,7 +38,6 @@ RSpec.describe User, type: :model do
       expect(user.errors[:email]).to include('has already been taken')
     end
 
-    # Add more validation tests as needed
   end
 
   describe 'associations' do
