@@ -16,6 +16,5 @@ RSpec.describe Message, type: :model do
   describe "associations" do
     it { should belong_to(:user) }
     it { should belong_to(:product) }
-    #it { should have_ancestry }
   end
 end

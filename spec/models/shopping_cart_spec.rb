@@ -12,7 +12,7 @@ RSpec.describe ShoppingCart, type: :model do
     end
   end
 
-  describe '#precio_total' do
+  describe 'precio_total' do
     it 'calculates the total price of products in the shopping cart' do
       cart = FactoryBot.create(:shopping_cart, user: user, products: { product1.id.to_s => 2, product2.id.to_s => 1 })
       expect(cart.precio_total).to eq(400) # (100 * 2) + (200 * 1) = 400
@@ -24,7 +24,7 @@ RSpec.describe ShoppingCart, type: :model do
     end
   end
 
-  describe '#costo_envio' do
+  describe 'costo_envio' do
     it 'calculates the shipping cost based on products in the cart' do
       cart = FactoryBot.create(:shopping_cart, user: user, products: { product1.id.to_s => 2, product2.id.to_s => 1 })
       expect(cart.costo_envio).to eq(1020)

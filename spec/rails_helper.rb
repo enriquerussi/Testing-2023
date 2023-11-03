@@ -75,6 +75,8 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :controller
 
+  config.include Rails.application.routes.url_helpers
+
   require 'shoulda/matchers'
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
