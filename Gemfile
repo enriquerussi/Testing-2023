@@ -75,7 +75,7 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner-active_record'
   gem 'selenium-webdriver', '>= 4.11.0'
-  # gem 'webdrivers'
+  gem 'webdrivers'
 end
 
 gem 'rubocop', require: false
