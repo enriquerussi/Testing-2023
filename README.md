@@ -2,10 +2,14 @@
 
 ### No logrado:
 Mejoras al sistema de  reservas
+
 Actualizar el set de pruebas
+
 Mantener 100% de coverage de la entrega anterior
 
+
 ### Logros de la entrega:
+
 Tareas de Enrique Russi: Tests de navegación
 
 Tareas de Cristobal Dulanto: Tests de sistema de formularios
