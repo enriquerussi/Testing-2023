@@ -1,5 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
@@ -7,6 +8,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rspec'
+require 'support/headless'
+
+Capybara.ignore_hidden_elements = false
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -61,9 +65,20 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  Capybara.default_driver = :selenium_chrome
+  Capybara.default_driver = :selenium_chrome_headless
 
   config.include Capybara::DSL, type: :system
+
+  #require 'webdrivers'
+
+  #Webdrivers::Chromedriver.required_version = '119.0.6045.160'
+  #Webdrivers::Chromedriver.download_url = 'https://chromedriver.storage.googleapis.com/LATEST_RELEASE'
+  #Webdrivers::Chromedriver.cache_time = 86_400 # Un día en segundos
+
+  #Webdrivers::Chromedriver.download_url = "	https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/linux64/chrome-linux64.zip"
+  #Webdrivers::Chromedriver.current_version = Webdrivers::Chromedriver.latest_version
+  #Webdrivers::Chromedriver.setup
+
 
   require 'factory_bot_rails'
   FactoryBot.definition_file_paths << File.join(File.dirname(__FILE__), 'factories')
@@ -72,6 +87,8 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  config.include Devise::Test::IntegrationHelpers, type: :feature
 
   config.include Devise::Test::ControllerHelpers, type: :controller
 
