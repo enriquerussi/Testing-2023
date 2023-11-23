@@ -12,7 +12,7 @@ RSpec.feature 'Navegación', type: :feature do
 
     # Hacer clic en un producto para ver detalles
     sleep(2)
-    click_link 'Regístrate'
+    find('a.button.is-rounded', text: 'Regístrate').click
     expect(page).to have_content('Registro')
   end
 end
